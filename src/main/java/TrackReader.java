@@ -12,7 +12,7 @@ public class TrackReader {
 
     public static TrackCell[][] TrackReader(String fileName) throws Exception {
         TrackCell track[][];
-
+        track = new TrackCell[100][100];
         // Open the file
         BufferedReader br = null;
         try {
@@ -33,7 +33,7 @@ public class TrackReader {
         }
 
         try {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
             String line = br.readLine();
 
             int i = 0;
