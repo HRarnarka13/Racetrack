@@ -51,10 +51,10 @@ public class Track {
                         track[i][j] = new TrackCell(OffTrack, -5);
                         break;
                     case StartPos:
-                        track[i][j] = new TrackCell(OnTrack, 0);
+                        track[i][j] = new TrackCell(StartPos, 0);
                         break;
                     case EndPos:
-                        track[i][j] = new TrackCell(OnTrack, 5);
+                        track[i][j] = new TrackCell(EndPos, 5);
                         break;
                 }
                 j++;

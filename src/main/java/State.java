@@ -1,18 +1,19 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by arnarkari on 18/10/15.
  *
  * @author arnarkari
  */
-public class CarState {
+public class State {
 
     private int velocity_Up;
     private int velocity_Right;
     private TrackCell cell;
-    private ArrayList<Integer> rewards;
+    private List<Integer> rewards;
 
-    public CarState(int velocity_Up, int velocity_Right, TrackCell cell) {
+    public State(int velocity_Up, int velocity_Right, TrackCell cell) {
         this.velocity_Up = velocity_Up;
         this.velocity_Right = velocity_Right;
         this.cell = cell;
