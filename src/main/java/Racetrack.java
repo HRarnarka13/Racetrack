@@ -8,7 +8,8 @@ public class Racetrack {
     public static void main(String[] args) {
         Track track;
         try {
-            track = new Track();
+            track = new Track(TrackReader.TrackReader("track1"));
+            System.out.println(track);
         } catch (Exception e) {
             e.printStackTrace();
         }

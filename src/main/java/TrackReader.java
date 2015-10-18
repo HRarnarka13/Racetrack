@@ -10,9 +10,8 @@ import java.io.IOException;
  */
 public class TrackReader {
 
-    public static TrackCell[][] TrackReader(String fileName) throws Exception {
-        TrackCell track[][];
-        track = new TrackCell[100][100];
+    public static String TrackReader(String fileName) throws Exception {
+
         // Open the file
         BufferedReader br = null;
         try {
@@ -20,55 +19,28 @@ public class TrackReader {
         } catch (FileNotFoundException e) {
             System.out.println("File '" + fileName + "' not found");
             e.printStackTrace();
+            return null;
         }
 
         // Check the size of the track
-        StringBuilder sb = new StringBuilder();
         if (br == null) {
-            throw new Exception("'Error opening file'");
-        }
-        String l  = br.readLine();
-        if (l == null) {
-
+            System.out.println("Error opening file: " + fileName);
+            return null;
         }
 
         try {
             StringBuilder stringBuilder = new StringBuilder();
             String line = br.readLine();
-
-            int i = 0;
             while (line != null) {
-                for (int j = 0; j < line.length(); j++) {
-                    switch (line.charAt(j)) {
-                        case 'o' :
-                            track[i][j] = new TrackCell(-5, false, false, false);
-                            break;
-                        case 'x' :
-                            track[i][j] = new TrackCell(-1, true, false, false);
-                            break;
-                        case 's' :
-                            track[i][j] = new TrackCell(0, true, false, true);
-                            break;
-                        case 'e' :
-                            track[i][j] = new TrackCell(1, false, true, false);
-                            break;
-                        default:
-                            throw new Exception("error parsing file");
-                    }
-                }
-                System.out.println(line.length());
-                sb.append(line);
-                sb.append(System.lineSeparator());
+                stringBuilder.append(line);
+                stringBuilder.append(System.lineSeparator());
                 line = br.readLine();
-                i++;
             }
-            String everything = sb.toString();
-            System.out.println(everything);
             br.close();
-
+            return stringBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return track;
     }
 }

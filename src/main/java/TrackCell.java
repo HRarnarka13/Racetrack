@@ -5,31 +5,28 @@
  */
 public class TrackCell {
 
+    private char symbol;
     private int reward;
-    private boolean onTrack;
-    private boolean onFinishLine;
-    private boolean onStartingLine;
 
-    public TrackCell(int reward, boolean onTrack, boolean onFinishLine, boolean onStartingLine) {
+    public TrackCell(char simpol, int reward) {
+        this.symbol = simpol;
         this.reward = reward;
-        this.onTrack = onTrack;
-        this.onFinishLine = onFinishLine;
-        this.onStartingLine = onStartingLine;
+    }
+
+    public char getSimpol() {
+        return symbol;
+    }
+
+    public void setSimpol(char simpol) {
+        this.symbol = simpol;
     }
 
     public int getReward() {
         return reward;
     }
 
-    public boolean isOnTrack() {
-        return onTrack;
-    }
-
-    public boolean isOnFinishLine() {
-        return onFinishLine;
-    }
-
-    public boolean isOnStartingLine() {
-        return onStartingLine;
+    @Override
+    public String toString() {
+        return String.valueOf(symbol);
     }
 }
