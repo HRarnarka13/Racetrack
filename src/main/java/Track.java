@@ -13,12 +13,16 @@ public class Track {
     public final char StartPos = 's';
     public final char EndPos   = 'e';
 
-    public TrackCell track[][];
+    private TrackCell track[][];
     private int rows;
     private int cols;
 
     public Track(String trackFile)  {
         parse(trackFile);
+    }
+
+    public TrackCell[][] getTrack() {
+        return track;
     }
 
     private void parse(String trackFile) {

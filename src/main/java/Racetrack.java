@@ -10,6 +10,8 @@ public class Racetrack {
         try {
             track = new Track(TrackReader.TrackReader("track1"));
             System.out.println(track);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
