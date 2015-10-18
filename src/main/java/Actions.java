@@ -26,6 +26,10 @@ public class Actions {
         }};
     }
 
+    public List<Action> getActions() {
+        return actions;
+    }
+
     /**
      * Get a state by the velocities
      * @param vel_up
@@ -45,7 +49,7 @@ public class Actions {
      * Get a random state
      * @return a random state
      */
-    public Action getRandomState() {
+    public Action getRandomAction() {
         int randomIndex = new Random().nextInt(actions.size());
         return actions.get(randomIndex);
     }

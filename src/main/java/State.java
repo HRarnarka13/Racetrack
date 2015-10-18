@@ -10,14 +10,13 @@ public class State {
 
     private int velocity_Up;
     private int velocity_Right;
-    private TrackCell cell;
-    private List<Integer> rewards;
+    private Cell cell;
 
-    public State(int velocity_Up, int velocity_Right, TrackCell cell) {
+    public State(int velocity_Up, int velocity_Right, Cell cell) {
         this.velocity_Up = velocity_Up;
         this.velocity_Right = velocity_Right;
         this.cell = cell;
-        this.rewards = new ArrayList<Integer>();
+
     }
 
     // region get set
@@ -37,41 +36,21 @@ public class State {
         this.velocity_Right = velocity_Right;
     }
 
-    public TrackCell getCell() {
+    public Cell getCell() {
         return cell;
     }
 
-    public void setCell(TrackCell cell) {
+    public void setCell(Cell cell) {
         this.cell = cell;
-    }
-
-    public ArrayList<Integer> getRewards() {
-        return rewards;
-    }
-
-    public void setRewards(ArrayList<Integer> rewards) {
-        this.rewards = rewards;
     }
     // endregion
 
-    /**
-     * Add a reward to the list of rewards
-     * @param reward a new reward
-     */
-    public void addReward(int reward) {
-        rewards.add(reward);
-    }
 
-    /**
-     * The the avg of the rewards
-     * @return the avg of the rewards
-     */
-    public double getAvgReward() {
-        int sum = 0;
-        for (Integer reward : rewards) {
-            sum += reward;
+    public boolean equals(State state) {
+        if (velocity_Up == state.getVelocity_Up() && velocity_Right == state.getVelocity_Right()
+                && cell.equals(state.getCell())) {
+            return true;
         }
-        return sum / (double) rewards.size();
+        return false;
     }
-
 }

@@ -28,4 +28,11 @@ public class Action {
     public void setVelocity_right(int velocity_right) {
         this.velocity_right = velocity_right;
     }
+
+    public boolean equals(Action action) {
+        if (velocity_up == action.getVelocity_up() && velocity_right == action.getVelocity_right()) {
+            return true;
+        }
+        return false;
+    }
 }

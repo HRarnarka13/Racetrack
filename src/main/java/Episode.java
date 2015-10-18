@@ -8,21 +8,22 @@ import java.util.List;
  */
 public class Episode {
 
-    private List<State> states;
+    private int reward;
+    private List<Pair> pairs;
 
     public Episode() {
-        this.states = new ArrayList<State>();
+        this.pairs = new ArrayList<Pair>();
     }
 
-    public List<State> getStates() {
-        return states;
+    public List<Pair> getPairs() {
+        return pairs;
     }
 
-    public void setStates(List<State> states) {
-        this.states = states;
+    public void setPairs(List<Pair> pairs) {
+        this.pairs = pairs;
     }
 
-    public void addState(State state) {
-        states.add(state);
+    public void addPair(Pair pair) {
+        pairs.add(pair);
     }
 }
