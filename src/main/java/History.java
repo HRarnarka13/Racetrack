@@ -11,9 +11,11 @@ public class History {
 
     List<StateActionHistory> stateActionHistories;
 
-//    public History() {
-//        this.stateActionHistories = new ArrayList<StateActionHistory>();
-//    }
+    /**
+     * Construct a state and action pair for every cell in the track.
+     * @param track the track
+     * @param actions list of actions
+     */
     public History(Track track, List<Action> actions){
         int rows = track.getRows();
         int cols = track.getCols();
