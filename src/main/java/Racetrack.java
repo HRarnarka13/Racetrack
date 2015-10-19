@@ -82,7 +82,7 @@ public class Racetrack {
                     if (currentState.getVelocity_Right() != 0 && currentState.getVelocity_Up() != 0) {
                         double randomSlide = Math.random();
                         if (randomSlide < 0.25) { // Slide up 25 % of the time
-//                            this makes us slide DOWN not UP LOL..
+                            // this makes us slide DOWN not UP LOL..
                             System.out.println("Slide up");
                             Cell slideCell = track.getCell(currentState.getCell().getX(),
                                     currentState.getCell().getY() - 1);
