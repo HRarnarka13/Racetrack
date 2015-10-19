@@ -60,6 +60,9 @@ public class History {
                 }
             }
         }
+        if (bestAction == null) {
+            System.out.println(state);
+        }
         return bestAction;
     }
 

@@ -26,18 +26,15 @@ public class Racetrack {
                 State currentState = new State(0,0, track.getRandomStartingPosition());
                 while (currentState.getCell().getSymbol() != track.EndPos) {
 
-                    // TODO: remove random here!
-                    Action action = actions.getRandomAction(); // our next action
+                    Action action; // our next action
 
                     double randomExplore = Math.random();
                     if (randomExplore < 0.1) { // 10 % of the time we explore
                         action = actions.getRandomAction(); // get random action
                     } else {
                         // choose state with good reward
-
-                        for (Action a : actions.getActions()) {
-                            // TODO: calculate best action
-                        }
+                        // Bet the best action to take in the current state
+                        action = history.getBestAction(currentState);
                     }
 
                     double randomSlide = Math.random();
@@ -66,10 +63,8 @@ public class Racetrack {
                     // Add action and current state to the list
                     episode.addPair(new Pair(currentState, action));
 
-                    // TODO: update currentState i.e. move the car
-
-
-
+                    // Move the car to the next state
+                    currentState = track.move(currentState, action);
                 }
                 // </Episode>
 

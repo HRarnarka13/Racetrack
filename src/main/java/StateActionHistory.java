@@ -35,7 +35,8 @@ public class StateActionHistory {
         for (Integer reward : rewards) {
             sum += reward;
         }
-        return sum / (double) rewards.size();
+        // Return 0 if there is no rewards in the state else return the avg of the rewards.
+        return rewards.isEmpty() ? 0 : sum / (double) rewards.size();
     }
 
     public boolean equals(Pair pair) {
