@@ -10,13 +10,15 @@ import java.util.List;
 public class History {
 
     List<StateActionHistory> stateActionHistories;
+    Track track;
 
     /**
      * Construct a state and action pair for every cell in the track.
      * @param track the track
      * @param actions list of actions
      */
-    public History(Track track, List<Action> actions){
+    public History(Track track, List<Action> actions) {
+        this.track = track;
         stateActionHistories = new ArrayList<StateActionHistory>();
         int rows = track.getRows();
         int cols = track.getCols();
@@ -41,6 +43,23 @@ public class History {
             }
 
         }
+    }
+
+    public double distanceToFinishLine(State state) {
+        Cell finishLineCell = getMiddleFinishLineCell();
+        return Math.sqrt(Math.pow(finishLineCell.getX() - state.getCell().getX(), 2)
+                + Math.pow(finishLineCell.getY() - state.getCell().getY(),2));
+    }
+
+    public Cell getMiddleFinishLineCell() {
+        List<Cell> endLine = new ArrayList<Cell>();
+        for (int i = 0; i < track.getRows(); i++) {
+            if (track.getTrack()[i][track.getCols() - 1].getSymbol() == track.EndPos) {
+                endLine.add(track.getTrack()[i][track.getCols() - 3]);
+            }
+        }
+        int middle = endLine.size() / 2;
+        return endLine.get(middle);
     }
 
     public int getIndex (Pair pair) {
@@ -80,16 +99,34 @@ public class History {
 
         double bestReward = Double.NEGATIVE_INFINITY;
         Action bestAction = null;
+
+        // Get a list of potential best actions
+        List<StateActionHistory> bestStateActions = new ArrayList<StateActionHistory>();
         for ( StateActionHistory sah : stateActionHistories ) {
             if (sah.getPair().getState().equals(state)) {
-                if ( sah.getAvgReward() > bestReward ) {
+                if ( sah.getAvgReward() > bestReward) {
                     bestReward = sah.getAvgReward();
                     bestAction = sah.getPair().getAction();
+                    // play and check
+                    State maybe = track.move(state, bestAction);
+
+                    if (distanceToFinishLine(maybe) <= distanceToFinishLine(state)) {
+                        bestStateActions.add(sah);
+                    }
                 }
             }
         }
+
+        // Get the best of the best action
+        for ( StateActionHistory bsa : bestStateActions) {
+            if ( bsa.getAvgReward() > bestReward ) {
+                bestReward = bsa.getAvgReward();
+                bestAction = bsa.getPair().getAction();
+            }
+        }
+
         if (bestAction == null) {
-            System.out.println(state);
+            System.out.println("ALERT NO BEST ACTION TO TAKE");
         }
         return bestAction;
     }

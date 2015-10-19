@@ -54,4 +54,15 @@ public class Actions {
         return actions.get(randomIndex);
     }
 
+    public Action getRandomStartingAction() {
+        List<Action> startingActions = new ArrayList<Action>();
+        for ( Action action : actions ) {
+            if (action.getVelocity_up() != -1) {
+                // Don't move back in the starting state
+                startingActions.add(action);
+            }
+        }
+        int randomIndex = new Random().nextInt(startingActions.size());
+        return startingActions.get(randomIndex);
+    }
 }

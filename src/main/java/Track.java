@@ -62,6 +62,7 @@ public class Track {
     }
 
 
+
     /**
      * Moves the car to a new state on the track. If the action will crash the car (move it off the track)
      * we will reset the car velocity and return the previous state of the car.
@@ -91,12 +92,12 @@ public class Track {
         // Get the current position of the car
         Cell currCell = state.getCell();
 
-        int newX = currCell.getX() - vel_up;
-        int newY = currCell.getY() + vel_right;
+        int newX = currCell.getX() + vel_right;
+        int newY = currCell.getY() - vel_up;
 
         try {
             // Get the position of the car after the action
-            Cell nextCell = track[newX][newY];
+            Cell nextCell = track[newY][newX];
             // Check if the car is off the track
             if (nextCell.getSymbol() == OffTrack) {
 
@@ -165,6 +166,7 @@ public class Track {
         int randomIndex = new Random().nextInt(startingPositions.size());
         return startingPositions.get(randomIndex);
     }
+
 
     @Override
     public String toString() {
