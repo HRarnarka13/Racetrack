@@ -103,6 +103,7 @@ public class History {
         // Get a list of potential best actions
         List<StateActionHistory> bestStateActions = new ArrayList<StateActionHistory>();
         for ( StateActionHistory sah : stateActionHistories ) {
+
             if (sah.getPair().getState().equals(state)) {
                 if ( sah.getAvgReward() > bestReward) {
                     bestReward = sah.getAvgReward();
