@@ -15,7 +15,8 @@ public class Racetrack {
             track = new Track(TrackReader.TrackReader("track1"));
             System.out.println(track);
 
-            List<Pair> allPairs = new ArrayList<Pair>();
+
+            History history = new History();
 
             for (int i = 0; i < 1000; i++) {
                 // <Episode>
@@ -71,7 +72,7 @@ public class Racetrack {
 
                 for (Pair pair : episode.getPairs()) {
                     // TODO : calculate reward for the episode. i.e the time of the race
-                        
+
                     // TODO: add the reward to each pair if the pair is new create it...
 
                 }
