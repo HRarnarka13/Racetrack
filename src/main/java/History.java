@@ -81,9 +81,6 @@ public class History {
         double bestReward = Double.NEGATIVE_INFINITY;
         Action bestAction = null;
         for ( StateActionHistory sah : stateActionHistories ) {
-            if (sah.getPair().getState().getCell() == null) {
-                System.out.println("PAIR STATE CELL IS NULL");
-            }
             if (sah.getPair().getState().equals(state)) {
                 if ( sah.getAvgReward() > bestReward ) {
                     bestReward = sah.getAvgReward();

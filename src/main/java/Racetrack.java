@@ -22,10 +22,23 @@ public class Racetrack {
                 // <Episode>
                 Episode episode = new Episode();
 
-                // Get a random starting position AND ACTION
+                // Get a random starting position and action
                 State currentState = new State(0,0, track.getRandomStartingPosition());
+                Action randomAction = actions.getRandomAction();
+                // Adding first pair to the episode
+                episode.addPair(new Pair(currentState, randomAction));
+
+                // Get the next position of the car
+                int nextX = currentState.getCell().getX() + randomAction.getVelocity_right();
+                int nextY = currentState.getCell().getY() + randomAction.getVelocity_up();
+                Cell nextCell = track.getCell(nextX, nextY);
+                currentState = new State(randomAction.getVelocity_up(), randomAction.getVelocity_right(), nextCell);
+
+                System.out.println("FIRST MOVE SYMBOL: " + currentState.getCell().getSymbol());
 
                 while (currentState.getCell().getSymbol() != track.EndPos) {
+
+                    System.out.println("CURRENT SYMBOL: " + currentState.getCell().getSymbol());
 
                     Action action; // our next action
 
@@ -37,6 +50,8 @@ public class Racetrack {
                         // Bet the best action to take in the current state
                         action = history.getBestAction(currentState);
                     }
+
+                    currentState = track.move(currentState, action);
 
                     double randomSlide = Math.random();
                     if (randomSlide < 0.25) { // Slide up 25 % of the time
@@ -63,9 +78,6 @@ public class Racetrack {
 
                     // Add action and current state to the list
                     episode.addPair(new Pair(currentState, action));
-
-                    // Move the car to the next state
-                    currentState = track.move(currentState, action);
                 }
                 // </Episode>
 
@@ -73,13 +85,9 @@ public class Racetrack {
                     // TODO : calculate reward for the episode. i.e the time of the race
 
                     // TODO: add the reward to each pair if the pair is new create it...
-
                 }
-
             }
             // Add state to list
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
