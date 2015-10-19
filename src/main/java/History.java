@@ -69,6 +69,8 @@ public class History {
     public void update(Pair pair, int reward) {
         int index = getIndex(pair);
         if (index == -1) {
+            System.out.println("Error update pair reward");
+            System.exit(1);
             stateActionHistories.add(new StateActionHistory(pair));
         } else {
             stateActionHistories.get(index).addReward(reward);
@@ -100,20 +102,18 @@ public class History {
 
             if (sah.getPair().getState().equals(state)) {
 
-//                if ( sah.getAvgReward() >= bestReward) {
+                if ( sah.getAvgReward() >= bestReward) {
 
                     bestReward = sah.getAvgReward();
                     bestAction = sah.getPair().getAction();
                     // play and check
                     State maybe = track.move(state, bestAction);
-                    System.out.println("distanceToFinishLine(state) : " + distanceToFinishLine(state));
-                    System.out.println("distanceToFinishLine(maybe) : " + distanceToFinishLine(maybe));
                     if (distanceToFinishLine(maybe) <= distanceToFinishLine(state)) {
                         bestStateActions.add(sah);
                     }
                 }
             }
-//        }
+        }
         // System.out.println("Size of best actions list " + bestStateActions.size());
         // Get the best of the best action
         Collections.shuffle(bestStateActions, new Random());

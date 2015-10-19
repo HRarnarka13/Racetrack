@@ -41,7 +41,7 @@ public class Racetrack {
 //                            "," + randomAction.getVelocity_right() + ")");
 
                     // Adding first pair to the episode
-                    episode.addPair(new StateActionHistory(new Pair(beginState, randomAction)));
+                    episode.addPair(new Pair(beginState, randomAction));
                     if (beginState.getCell().getSymbol() == Track.OffTrack) {
 //                        System.out.println("We are off the track before move!");
                     }
@@ -162,7 +162,7 @@ public class Racetrack {
                     }
 
                     // Add action and current state to the list
-                    episode.addPair(new StateActionHistory(new Pair(currentState, action)));
+                    episode.addPair(new Pair(currentState, action));
                     numberOfIteration++;
 
                     if (currentCell.getSymbol() == Track.EndPos) {
@@ -172,8 +172,8 @@ public class Racetrack {
                 // </Episode>
 
                 // Add the reward we got for the episode to each of the states
-                for (StateActionHistory stateActionHistory : episode.getStateActionHistories()) {
-                    stateActionHistory.addReward(episode.getReward());
+                for (Pair pair: episode.getPairs()) {
+                    history.update(pair, episode.getReward());
                 }
                 System.out.println(" Round:" + i + " reward : " + episode.getReward());
 
