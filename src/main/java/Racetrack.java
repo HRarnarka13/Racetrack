@@ -21,7 +21,7 @@ public class Racetrack {
 
             History history = new History(track, actions.getActions());
 
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 100; i++) {
                 // <Episode>
                 Episode episode = new Episode();
 
@@ -58,7 +58,8 @@ public class Racetrack {
 
                 int numberOfIteration = 0;
                 while (currentState.getCell().getSymbol() != track.EndPos && numberOfIteration <= MAX_ITERATIONS) {
-                    System.out.println("Curr itterations" + numberOfIteration);
+                    System.out.println("Current Iterations" + numberOfIteration);
+
                     System.out.println("Curr SYMBOL: " + currentState.getCell().getX() + ", "
                             + currentState.getCell().getY() + " : " + currentState.getCell().getSymbol());
 
@@ -89,6 +90,8 @@ public class Racetrack {
                             if (slideCell == null || slideCell.getSymbol() == track.OffTrack) {
                                 // TODO : check if we slide over the finish line
                                 // TODO : check if we slide out of the track
+                                System.out.println("sliding Curr SYMBOL: " + currentState.getCell().getX() + ", "
+                                        + currentState.getCell().getY() + " : " + currentState.getCell().getSymbol());
                             }
                             currentState.setCell(slideCell);
 
@@ -99,6 +102,8 @@ public class Racetrack {
                             if (slideCell == null || slideCell.getSymbol() == track.OffTrack) {
                                 // TODO : check if we slide over the finish line
                                 // TODO : check if we slide out of the track
+                                System.out.println("sliding Curr SYMBOL: " + currentState.getCell().getX() + ", "
+                                        + currentState.getCell().getY() + " : " + currentState.getCell().getSymbol());
                             }
 
                             currentState.setCell(slideCell);

@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by arnarkari on 19/10/15.
@@ -26,19 +24,15 @@ public class History {
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < cols; j++){
                 //
-                if(track.getTrack()[i][j].getSymbol() == track.OnTrack ||
-                        track.getTrack()[i][j].getSymbol() == track.StartPos){
-                    for(int k = -5; k < 6; k++){
-                        for(int h = -5; h < 6; h++){
-                            for(Action a : actions){
-                                State state = new State(k, h, track.getTrack()[i][j]);
-                                Pair pair = new Pair(state, a);
-                                StateActionHistory stateAction = new StateActionHistory(pair);
-                                stateActionHistories.add(stateAction);
-                            }
+                for(int k = -5; k < 6; k++){
+                    for(int h = -5; h < 6; h++){
+                        for(Action a : actions){
+                            State state = new State(k, h, track.getTrack()[i][j]);
+                            Pair pair = new Pair(state, a);
+                            StateActionHistory stateAction = new StateActionHistory(pair);
+                            stateActionHistories.add(stateAction);
                         }
                     }
-
                 }
             }
 
@@ -105,7 +99,9 @@ public class History {
         for ( StateActionHistory sah : stateActionHistories ) {
 
             if (sah.getPair().getState().equals(state)) {
-                if ( sah.getAvgReward() > bestReward) {
+
+                if ( sah.getAvgReward() >= bestReward) {
+
                     bestReward = sah.getAvgReward();
                     bestAction = sah.getPair().getAction();
                     // play and check
@@ -119,8 +115,11 @@ public class History {
         }
         System.out.println("Size of best actions list " + bestStateActions.size());
         // Get the best of the best action
+        System.out.println("size of best action list " + bestStateActions.size());
+        Collections.shuffle(bestStateActions, new Random());
+        bestReward = Double.NEGATIVE_INFINITY;
         for ( StateActionHistory bsa : bestStateActions) {
-            if ( bsa.getAvgReward() > bestReward ) {
+            if ( bsa.getAvgReward() >= bestReward ) {
                 bestReward = bsa.getAvgReward();
                 bestAction = bsa.getPair().getAction();
             }
