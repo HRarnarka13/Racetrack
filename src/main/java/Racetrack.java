@@ -67,6 +67,9 @@ public class Racetrack {
                     episode.addPair(new Pair(currentState, action));
 
                     // TODO: update currentState i.e. move the car
+
+
+
                 }
                 // </Episode>
 

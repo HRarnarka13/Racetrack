@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 /**
@@ -39,6 +40,27 @@ public class History {
             return stateActionHistories.get(index).getAvgReward();
         }
         return -1; // TODO : what to return if the stateActionHistory is unseen ?
+    }
+
+
+    /**
+     * Returns the best action to take in a given state based on the best reward
+     * @param state
+     * @return
+     */
+    public Action getBestAction(State state) {
+
+        double bestReward = Double.NEGATIVE_INFINITY;
+        Action bestAction = null;
+        for ( StateActionHistory sah : stateActionHistories ) {
+            if (sah.getPair().getState().equals(state)) {
+                if ( sah.getAvgReward() > bestReward ) {
+                    bestReward = sah.getAvgReward();
+                    bestAction = sah.getPair().getAction();
+                }
+            }
+        }
+        return bestAction;
     }
 
 }

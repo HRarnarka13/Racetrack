@@ -38,6 +38,40 @@ public class Track {
         return null;
     }
 
+    public State move(State state, Action action) {
+
+        // Get the new velocity up of the car
+        int vel_up = state.getVelocity_Up() + action.getVelocity_up();
+        if (vel_up >= 5) {
+            vel_up = 5;
+        } else if (vel_up <= -5) {
+            vel_up = -5;
+        }
+
+        // Get the new velocity to right of the car
+        int vel_right = state.getVelocity_Right() + action.getVelocity_right();
+        if (vel_right >= 5) {
+            vel_right = 5;
+        } else if (vel_right <= -5) {
+            vel_right = -5;
+        }
+
+        // Get the current position of the car
+        Cell currCell = state.getCell();
+
+        int newX = currCell.getX() - vel_up;
+        int newY = currCell.getY() + vel_right;
+
+        try {
+            Cell nextCell = track[newX][newY];
+            State newState = new State(vel_up, vel_right, nextCell);
+            return newState;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // The car has crashed
+            return new State(0, 0, state.getCell());
+        }
+    }
+
     private void parse(String trackFile) {
 
         // Check how large the array has to be for the track
@@ -89,7 +123,6 @@ public class Track {
         int randomIndex = new Random().nextInt(startingPositions.size());
         return startingPositions.get(randomIndex);
     }
-
 
     @Override
     public String toString() {
