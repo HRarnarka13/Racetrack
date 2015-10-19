@@ -143,7 +143,7 @@ public class Track {
                         track[i][j] = new Cell(j, i, StartPos, -1);
                         break;
                     case EndPos:
-                        track[i][j] = new Cell(j, i, EndPos, -1);
+                        track[i][j] = new Cell(j, i, EndPos, 0);
                         break;
                 }
                 j++;
