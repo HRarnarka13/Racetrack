@@ -16,7 +16,6 @@ public class State {
         this.velocity_Up = velocity_Up;
         this.velocity_Right = velocity_Right;
         this.cell = cell;
-
     }
 
     // region get set

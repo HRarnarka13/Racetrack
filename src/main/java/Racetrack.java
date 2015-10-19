@@ -24,6 +24,7 @@ public class Racetrack {
 
                 // Get a random starting position AND ACTION
                 State currentState = new State(0,0, track.getRandomStartingPosition());
+
                 while (currentState.getCell().getSymbol() != track.EndPos) {
 
                     Action action; // our next action
