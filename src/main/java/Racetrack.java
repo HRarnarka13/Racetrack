@@ -26,8 +26,9 @@ public class Racetrack {
                 Episode episode = new Episode();
 
                 // Get a random starting position and action
-                State currentState = new State(0,0, track.getRandomStartingPosition());
                 Action randomAction = actions.getRandomStartingAction();
+
+                State currentState = new State(randomAction.getVelocity_up(), randomAction.getVelocity_right(), track.getRandomStartingPosition());
 
                 System.out.println("Starting pos : " + currentState.getCell().getX() + ", "
                         + currentState.getCell().getY());
@@ -37,26 +38,27 @@ public class Racetrack {
 
                 // Adding first pair to the episode
                 episode.addPair(new Pair(currentState, randomAction));
-
-                // Get the next position of the car
-                int nextX = currentState.getCell().getX() + randomAction.getVelocity_right();
-                int nextY = currentState.getCell().getY() - randomAction.getVelocity_up();
-
-                System.out.println("nextX = " + nextX);
-                System.out.println("nextY = " + nextY);
-
-                Cell nextCell = track.getCell(nextX, nextY);
-                if (nextCell == null) {
-                    System.out.println("NEXT CELL IS NULL");
-                }
-                currentState = new State(randomAction.getVelocity_up(), randomAction.getVelocity_right(), nextCell);
-
-                System.out.println("FIRST MOVE SYMBOL: " + currentState.getCell().getX() + ", "
-                        + currentState.getCell().getY() + " : " + currentState.getCell().getSymbol());
+//                We are not supposed to actually move the car in the start. Just give it a state.
+//
+//                // Get the next position of the car
+//                int nextX = currentState.getCell().getX() + randomAction.getVelocity_right();
+//                int nextY = currentState.getCell().getY() - randomAction.getVelocity_up();
+//
+//                System.out.println("nextX = " + nextX);
+//                System.out.println("nextY = " + nextY);
+//
+//                Cell nextCell = track.getCell(nextX, nextY);
+//                if (nextCell == null) {
+//                    System.out.println("NEXT CELL IS NULL");
+//                }
+//                currentState = new State(randomAction.getVelocity_up(), randomAction.getVelocity_right(), nextCell);
+//
+//                System.out.println("FIRST MOVE SYMBOL: " + currentState.getCell().getX() + ", "
+//                        + currentState.getCell().getY() + " : " + currentState.getCell().getSymbol());
 
                 int numberOfIteration = 0;
-                while (currentState.getCell().getSymbol() != track.EndPos || numberOfIteration >= MAX_ITERATIONS) {
-
+                while (currentState.getCell().getSymbol() != track.EndPos && numberOfIteration <= MAX_ITERATIONS) {
+                    System.out.println("Curr itterations" + numberOfIteration);
                     System.out.println("Curr SYMBOL: " + currentState.getCell().getX() + ", "
                             + currentState.getCell().getY() + " : " + currentState.getCell().getSymbol());
 
@@ -80,9 +82,10 @@ public class Racetrack {
                     if (currentState.getVelocity_Right() != 0 && currentState.getVelocity_Up() != 0) {
                         double randomSlide = Math.random();
                         if (randomSlide < 0.25) { // Slide up 25 % of the time
-
+//                            this makes us slide DOWN not UP LOL..
+                            System.out.println("Slide up");
                             Cell slideCell = track.getCell(currentState.getCell().getX(),
-                                    currentState.getCell().getY() + 1);
+                                    currentState.getCell().getY() - 1);
                             if (slideCell == null || slideCell.getSymbol() == track.OffTrack) {
                                 // TODO : check if we slide over the finish line
                                 // TODO : check if we slide out of the track
@@ -90,7 +93,7 @@ public class Racetrack {
                             currentState.setCell(slideCell);
 
                         } else if (randomSlide > 0.75) { // Slide right 25 % of the time
-
+                            System.out.println("Slide right");
                             Cell slideCell = track.getCell(currentState.getCell().getX() + 1,
                                     currentState.getCell().getY());
                             if (slideCell == null || slideCell.getSymbol() == track.OffTrack) {

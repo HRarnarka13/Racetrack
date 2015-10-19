@@ -117,7 +117,7 @@ public class History {
                 }
             }
         }
-
+        System.out.println("Size of best actions list " + bestStateActions.size());
         // Get the best of the best action
         for ( StateActionHistory bsa : bestStateActions) {
             if ( bsa.getAvgReward() > bestReward ) {
