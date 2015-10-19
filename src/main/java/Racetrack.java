@@ -16,7 +16,7 @@ public class Racetrack {
             System.out.println(track);
 
 
-            History history = new History();
+            History history = new History(track, actions.getActions());
 
             for (int i = 0; i < 1000; i++) {
                 // <Episode>

@@ -11,8 +11,34 @@ public class History {
 
     List<StateActionHistory> stateActionHistories;
 
-    public History() {
-        this.stateActionHistories = new ArrayList<StateActionHistory>();
+    /**
+     * Construct a state and action pair for every cell in the track.
+     * @param track the track
+     * @param actions list of actions
+     */
+    public History(Track track, List<Action> actions){
+        int rows = track.getRows();
+        int cols = track.getCols();
+        // for each cell(x,y)
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                //
+                if(track.getCell(i, j ).getSymbol() == track.OnTrack || track.getCell(i, j).getSymbol() == track.StartPos){
+                    for(int k = -5; k < 6; k++){
+                        for(int h = -5; h < 6; h++){
+                            for(Action a : actions){
+                                State state = new State(k, h, track.getCell(i, j));
+                                Pair pair = new Pair(state, a);
+                                StateActionHistory stateAction = new StateActionHistory(pair);
+                                stateActionHistories.add(stateAction);
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        }
     }
 
     public int getIndex (Pair pair) {
