@@ -26,6 +26,12 @@ public class Track {
         return track;
     }
 
+    /**
+     * Get a cell on the track by its position.
+     * @param x
+     * @param y
+     * @return a cell, or null if the cell is not on the track
+     */
     public Cell getCell(int x, int y) {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -38,6 +44,15 @@ public class Track {
         return null;
     }
 
+
+    /**
+     * Moves the car to a new state on the track. If the action will crash the car (move it off the track)
+     * we will reset the car velocity and return the previous state of the car.
+     * @param state     The current state of the car
+     * @param action    Action which the car will perform next
+     * @return          The next state of the car after the action has been performed. If the action will crash the
+     *                  car off the track then the velocity is reset and the car stays at its previous position.
+     */
     public State move(State state, Action action) {
 
         // Get the new velocity up of the car
@@ -63,15 +78,25 @@ public class Track {
         int newY = currCell.getY() + vel_right;
 
         try {
+            // Get the position of the car after the action
             Cell nextCell = track[newX][newY];
+            // Check if the car is off the track
+            if (nextCell.getSymbol() == OffTrack) {
+
+                return new State(0, 0, state.getCell());
+            }
             State newState = new State(vel_up, vel_right, nextCell);
             return newState;
         } catch (ArrayIndexOutOfBoundsException e) {
-            // The car has crashed
+             // The car has crashed
             return new State(0, 0, state.getCell());
         }
     }
 
+    /**
+     * Parse the track file string and initialize the track (array)
+     * @param trackFile
+     */
     private void parse(String trackFile) {
 
         // Check how large the array has to be for the track
