@@ -42,7 +42,7 @@ public class History {
     public double distanceToFinishLine(State state) {
         Cell finishLineCell = getMiddleFinishLineCell();
         return Math.sqrt(Math.pow(finishLineCell.getX() - state.getCell().getX(), 2)
-                + Math.pow(finishLineCell.getY() - state.getCell().getY(),2));
+                + Math.pow(state.getCell().getY() - finishLineCell.getY(),2));
     }
 
     public Cell getMiddleFinishLineCell() {
@@ -100,22 +100,22 @@ public class History {
 
             if (sah.getPair().getState().equals(state)) {
 
-                if ( sah.getAvgReward() >= bestReward) {
+//                if ( sah.getAvgReward() >= bestReward) {
 
                     bestReward = sah.getAvgReward();
                     bestAction = sah.getPair().getAction();
                     // play and check
                     State maybe = track.move(state, bestAction);
-
+                    System.out.println("distanceToFinishLine(state) : " + distanceToFinishLine(state));
+                    System.out.println("distanceToFinishLine(maybe) : " + distanceToFinishLine(maybe));
                     if (distanceToFinishLine(maybe) <= distanceToFinishLine(state)) {
                         bestStateActions.add(sah);
                     }
                 }
             }
-        }
-        System.out.println("Size of best actions list " + bestStateActions.size());
+//        }
+        // System.out.println("Size of best actions list " + bestStateActions.size());
         // Get the best of the best action
-        System.out.println("size of best action list " + bestStateActions.size());
         Collections.shuffle(bestStateActions, new Random());
         bestReward = Double.NEGATIVE_INFINITY;
         for ( StateActionHistory bsa : bestStateActions) {

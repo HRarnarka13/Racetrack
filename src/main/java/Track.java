@@ -9,10 +9,10 @@ import java.util.Random;
  */
 public class Track {
 
-    public final char OffTrack = 'o';
-    public final char OnTrack  = 'x';
-    public final char StartPos = 's';
-    public final char EndPos   = 'e';
+    public static final char OffTrack = 'o';
+    public static final char OnTrack  = 'x';
+    public static final char StartPos = 's';
+    public static final char EndPos   = 'e';
 
     private Cell track[][];
     private int rows;
@@ -72,7 +72,6 @@ public class Track {
      *                  car off the track then the velocity is reset and the car stays at its previous position.
      */
     public State move(State state, Action action) {
-
         // Get the new velocity up of the car
         int vel_up = state.getVelocity_Up() + action.getVelocity_up();
         if (vel_up >= 5) {
@@ -98,11 +97,9 @@ public class Track {
         try {
             // Get the position of the car after the action
             Cell nextCell = track[newY][newX];
-            System.out.println("Next cell coordinates : " + nextCell.getX() + " , " + nextCell.getY());
+            // System.out.println("Next cell coordinates : " + nextCell.getX() + " , " + nextCell.getY());
             // Check if the car is off the track
             if (nextCell.getSymbol() == OffTrack) {
-
-                System.out.println("We are off the track!");
                 return new State(0, 0, state.getCell());
             }
             State newState = new State(vel_up, vel_right, nextCell);
@@ -143,10 +140,10 @@ public class Track {
                         track[i][j] = new Cell(j, i, OffTrack, -5);
                         break;
                     case StartPos:
-                        track[i][j] = new Cell(j, i, StartPos, 0);
+                        track[i][j] = new Cell(j, i, StartPos, -1);
                         break;
                     case EndPos:
-                        track[i][j] = new Cell(j, i, EndPos, 5);
+                        track[i][j] = new Cell(j, i, EndPos, -1);
                         break;
                 }
                 j++;

@@ -9,21 +9,31 @@ import java.util.List;
 public class Episode {
 
     private int reward;
-    private List<Pair> pairs;
+    private List<StateActionHistory> stateActionHistories;
 
     public Episode() {
-        this.pairs = new ArrayList<Pair>();
+        this.reward = 0;
+        this.stateActionHistories = new ArrayList<StateActionHistory>();
     }
 
-    public List<Pair> getPairs() {
-        return pairs;
+    public List<StateActionHistory> getStateActionHistories() {
+        return stateActionHistories;
     }
 
-    public void setPairs(List<Pair> pairs) {
-        this.pairs = pairs;
+    public void setStateActionHistories(List<StateActionHistory> stateActionHistory) {
+        this.stateActionHistories = stateActionHistories;
     }
 
-    public void addPair(Pair pair) {
-        pairs.add(pair);
+    public void addPair(StateActionHistory stateActionHistory) {
+        this.stateActionHistories.add(stateActionHistory);
     }
+
+    public int getReward() {
+        return reward;
+    }
+
+    public void updateReward(int reward) {
+        this.reward += reward;
+    }
+
 }
