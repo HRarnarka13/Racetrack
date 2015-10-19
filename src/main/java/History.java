@@ -97,6 +97,7 @@ public class History {
         // Get a list of potential best actions
         List<StateActionHistory> bestStateActions = new ArrayList<StateActionHistory>();
         for ( StateActionHistory sah : stateActionHistories ) {
+
             if (sah.getPair().getState().equals(state)) {
 
                 if ( sah.getAvgReward() >= bestReward) {
@@ -112,6 +113,7 @@ public class History {
                 }
             }
         }
+        System.out.println("Size of best actions list " + bestStateActions.size());
         // Get the best of the best action
         System.out.println("size of best action list " + bestStateActions.size());
         Collections.shuffle(bestStateActions, new Random());

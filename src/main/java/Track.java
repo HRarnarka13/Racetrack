@@ -98,9 +98,11 @@ public class Track {
         try {
             // Get the position of the car after the action
             Cell nextCell = track[newY][newX];
+            System.out.println("Next cell coordinates : " + nextCell.getX() + " , " + nextCell.getY());
             // Check if the car is off the track
             if (nextCell.getSymbol() == OffTrack) {
 
+                System.out.println("We are off the track!");
                 return new State(0, 0, state.getCell());
             }
             State newState = new State(vel_up, vel_right, nextCell);
