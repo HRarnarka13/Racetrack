@@ -8,8 +8,11 @@ import java.util.Random;
  *
  * @author arnarkari
  */
-public final class Actions {
+public class Actions {
 
+    /**
+     * List of available actions
+     */
     private static List<Action> actions = new ArrayList<Action>() {{
         add(new Action(0, 0));
         add(new Action(0, 1));
@@ -22,12 +25,17 @@ public final class Actions {
         add(new Action(-1, -1));
     }};
 
-    public Actions() {
-        // Preset the available actions
-    }
 
+    /**
+     * Returns a list of available actions in a random order.
+     * @return the list of available actions in a random order.
+     */
     public static List<Action> getActions() {
-        Collections.shuffle(actions);
+        /**
+         *  Here we shuffle the list so that we don't always go through the action list in the same order.
+         *  This is particularly good if we are choosing the best action to take in a given state.
+         */
+        Collections.shuffle(actions, new Random());
         return actions;
     }
 
@@ -40,15 +48,4 @@ public final class Actions {
         return actions.get(randomIndex);
     }
 
-    public static Action getRandomStartingAction() {
-        List<Action> startingActions = new ArrayList<Action>();
-        for ( Action action : actions ) {
-            if (action.getVelocity_up() != -1) {
-                // Don't move back in the starting state
-                startingActions.add(action);
-            }
-        }
-        int randomIndex = new Random().nextInt(startingActions.size());
-        return startingActions.get(randomIndex);
-    }
 }

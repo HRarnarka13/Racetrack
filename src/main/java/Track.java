@@ -20,7 +20,7 @@ public class Track {
     public int getRows() {
         return rows;
     }
-    
+
     public int getCols() {
         return cols;
     }
@@ -42,7 +42,7 @@ public class Track {
      */
     public Cell getCell(int x, int y) {
         try {
-            return track[x][y];
+            return track[y][x];
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }
@@ -83,7 +83,6 @@ public class Track {
         try {
             // Get the position of the car after the action
             Cell nextCell = track[newY][newX];
-            // System.out.println("Next cell coordinates : " + nextCell.getX() + " , " + nextCell.getY());
             // Check if the car is off the track
             if (nextCell.getSymbol() == OffTrack) {
                 return new State(0, 0, state.getCell());
@@ -114,9 +113,9 @@ public class Track {
         track = new Cell[rows][cols];
 
         // Fill the track
-        int i = 0, j = 0;
+        int i = 0;
         for(String row : track_rows) {
-            j = 0;
+            int j = 0;
             for(char cell : row.toCharArray()) {
                 switch (cell) {
                     case OnTrack:
@@ -152,13 +151,13 @@ public class Track {
         return startingPositions.get(randomIndex);
     }
 
-    public String PrintPos(Cell cell) {
+    public String PrintPos(Cell cell, char a) {
         String result = "";
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (track[i][j] != null) {
                     if (cell.equals(track[i][j])) {
-                        result += track[i][j].getSymbol() == OffTrack ? "W" :"R";
+                        result += track[i][j].getSymbol() == OffTrack ? "W" : a;
                     } else {
                         result += track[i][j].toString();
                     }

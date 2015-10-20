@@ -1,13 +1,15 @@
 /**
  * Created by arnarkari on 18/10/15.
  *
+ * This class represents sa single cell on the track
+ *
  * @author arnarkari
  */
 public class Cell {
 
-    private int x, y;
-    private char symbol;
-    private int reward;
+    private int x, y; // position of the cell
+    private char symbol; // the symbol of the cell
+    private int reward; // the reward of ending in this cell
 
     public Cell(int x, int y, char symbol, int reward) {
         this.x = x;
@@ -20,24 +22,12 @@ public class Cell {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public char getSymbol() {
         return symbol;
-    }
-
-    public void setSymbol(char symbol) {
-        this.symbol = symbol;
     }
 
     public int getReward() {

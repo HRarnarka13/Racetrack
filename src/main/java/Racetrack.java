@@ -1,162 +1,122 @@
-//import java.util.ArrayList;
-//import java.util.List;
-//
-///**
-// * Created by arnarkari on 18/10/15.
-// *
-// * @author arnarkari
-// */
-//public class Racetrack {
-//
-//    public static void main(String[] args) {
-//
-//        final int MAX_ITERATIONS = 30;
-//        final int NUMBER_OF_EPISODES = 1000000;
-//        final int OFF_REWARD = -5;
-//        final int ON_REWARD = -1;
-//
-//        Actions actions = new Actions();
-//        Track track;
-//        try {
-//            track = new Track(TrackReader.TrackReader("track1"));
-//            System.out.println(track);
-//
-//            HistoryHash history = new HistoryHash(track, actions.getActions());
-//            long sum = 0;
-//            int wins = 0;
-//
-//            for (int i = 0; i < NUMBER_OF_EPISODES; i++) {
-//                double randomPrint = Math.random();
-//                // <Episode>
-//                Episode episode = new Episode();
-//
-//                State beginState;
-//                State currentState;
-//                do {
-//                    // Get a random starting position and action
-//                    Action randomAction = actions.getRandomStartingAction();
-//
-//                    beginState = new State(0, 0, track.getRandomStartingPosition());
-//
-//                    // Adding first pair to the episode
-//                    episode.addPair(new StateActionHistory(new Pair(beginState, randomAction)));
-//                    currentState = track.move(beginState, randomAction);
-//
-//                } while (currentState.getCell().getY() == beginState.getCell().getY());
-//
-//                int numberOfIteration = 0;
-//                while (currentState.getCell().getSymbol() != track.EndPos && numberOfIteration <= MAX_ITERATIONS) {
-//                    Action action; // our next action
-//                    boolean crashed;
-//
-//                    do {
-//                        crashed = false;
-//                        double randomExplore = Math.random();
-//                        if (randomExplore < 0.1) { // 10 % of the time we explore
-//                            action = actions.getRandomAction(); // get random action
-//                        } else {
-//                            // Get the best action to take in the current state
-//                            action = history.getBestAction(currentState, actions);
-//                        }
-//
-//                        State lastState = currentState;
-//                        currentState = track.move(currentState, action);
-//
-//                        if (lastState.getCell().getSymbol() == Track.OnTrack
-//                                && action.getVelocity_right() != 0 && action.getVelocity_up() != 0) {
-//                            if (currentState.getCell().getX() == lastState.getCell().getX() &&
-//                                    currentState.getCell().getY() == lastState.getCell().getY()) {
-//                                episode.updateReward(OFF_REWARD);
-//                                crashed = true;
-//                                numberOfIteration++;
-//                                episode.addPair(new StateActionHistory(new Pair(currentState, action)));
-//                            }
-//                        }
-//                    } while (crashed);
-//
-//                    // ARNAR
-//                    episode.updateReward(ON_REWARD);
-//                    episode.addPair(new StateActionHistory(new Pair(currentState, action)));
-//
-//                    // Only slide if we are moving.
-//                    if (currentState.getVelocity_Right() != 0 && currentState.getVelocity_Up() != 0) {
-//                        boolean didSlide = false;
-//                        double randomSlide = Math.random();
-//                        Cell slideCell = null;
-//                        if (randomSlide < 0.25) { // Slide up 25 % of the time
-//                            didSlide = true;
-//                            slideCell = track.getCell(currentState.getCell().getX(),
-//                                    currentState.getCell().getY() - 1);
-//
-//                        } else if (randomSlide > 0.75) { // Slide right 25 % of the time
-//                            didSlide = true;
-//                            slideCell = track.getCell(currentState.getCell().getX() + 1,
-//                                    currentState.getCell().getY());
-//                        }
-//
-//                        // TODO : check if we slide over the finish line
-//
-//                        // check if we slide and we slide out of the track
-//                        if (didSlide) {
-//
-//                            // slideCell = currentState.getCell();
-//                            if (slideCell == null) { // Out off the track array
-////                                currentState.setVelocity_Up(0);
-////                                currentState.setVelocity_Right(0);
-////                                episode.updateReward(OFF_REWARD);
-//                                continue;
-//                            } else if (slideCell.getSymbol() == Track.OffTrack) { // Out off the track
-//                                currentState.setVelocity_Up(0);
-//                                currentState.setVelocity_Right(0);
-//                                episode.updateReward(OFF_REWARD);
-//                                currentState.setCell(slideCell);
-//                                episode.addPair(new StateActionHistory(new Pair(currentState, action)));
-//                            }
-//                        }
-//                    }
-//
-//                    Cell currentCell = currentState.getCell();
-//                    if (currentCell != null) {
-//                        episode.updateReward(currentCell.getReward());
-//                    } else {
-//                        System.out.println("ERROR: READING SYMBOL");
-//                    }
-//
-//                    // Add action and current state to the list
-//                    episode.addPair(new StateActionHistory(new Pair(currentState, action)));
-//                    numberOfIteration++;
-//
-//                    if (currentCell.getSymbol() == Track.EndPos) {
-//                        wins++;
-//                    }
-//
-//                    if (currentCell.getSymbol() == Track.EndPos && randomPrint <= 0.0001) {
-//                        System.out.print("won in : " + numberOfIteration + " iterations, ");
-//                    }
-//                }
-//                // </Episode>
-//
-//                // Add the reward we got for the episode to each of the states
-//                int reward_sum = episode.getReward();
-//                for (StateActionHistory steps : episode.getStateActionHistorys()) {
-//                    history.updateReward(steps.getPair(), reward_sum);
-//                    reward_sum -= steps.getPair().getState().getCell().getReward();
-//                }
-////                if (reward_sum > 1) {
-////                    System.out.println("ALERT REWARD SUM NOT 0");
-////                    System.exit(1);
-////                }
-//                sum += episode.getReward();
-//                if (randomPrint <= 0.0001) {
-//
-//                    System.out.println(" Round:" + i + " reward " + episode.getReward() +  " avg : "
-//                            + sum / (double) i + " wins : " + wins);
-////                    history.Print();
-//                }
-//
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//}
+/**
+ * Created by arnarkari on 20/10/15.
+ *
+ * @author arnarkari
+ */
+public class Racetrack {
+
+    Track track;
+    HistoryHash history;
+
+    final int MAX_ITERATIONS = 30;
+    final int NUMBER_OF_EPISODES = 2000000;
+    final int OFF_REWARD = -5;
+    final int ON_REWARD = -1;
+
+    public Racetrack() {
+        try {
+            this.track = new Track(TrackReader.TrackReader("track1"));
+            this.history = new HistoryHash(this.track);
+
+            int sum = 0;
+            for (int i = 0; i < NUMBER_OF_EPISODES; i++) {
+
+                State beginState = new State(0, 0, track.getRandomStartingPosition());
+
+                int reward = simulate(beginState, 0, false);
+                sum += reward;
+                if (i % 10000 == 0) {
+                    System.out.println("Round : " + i + " SUM : " + sum + " avg : " + sum / (double)(10000) + " reward : " + reward);
+                    sum = 0;
+                }
+            }
+
+            State beginState = new State(0, 0, track.getRandomStartingPosition());
+            System.out.println("Reward! : " + simulate(beginState, 0, true));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Recursive function for simulating a episode on the track.
+     * @param state current state
+     * @param iteration iteration number
+     * @param print boolean value to say if we want to print the episode
+     * @return the reward of the begin state after the episode
+     */
+    public int simulate (State state, int iteration, boolean print) {
+
+        if (print) {
+            System.out.println(track.PrintPos(state.getCell(), 'R'));
+            System.out.println("Racer: (" + state.getCell().getX() + "," + state.getCell().getY() + ") speed : (" +
+                    state.getVelocity_Up() + "," + state.getVelocity_Right() + ")");
+
+        }
+        // Check if the current state is a terminal state
+        if (state.getCell().getSymbol() != Track.EndPos && iteration <= MAX_ITERATIONS) {
+
+            Action nextAction; // next action
+            double randomExplore = Math.random();
+            if (randomExplore < 0.1 && iteration != 0) { // 10 % of the time we explore
+                nextAction = Actions.getRandomAction(); // get random action
+                if (print) {
+                    System.out.println("Action: (" + nextAction.getVelocity_up()+ "," + nextAction.getVelocity_right() + ")");
+                }
+            } else {
+                // Get the best action to take in the current state
+                nextAction = history.getGoodAction(state);
+                if (print) {
+                    System.out.println("Action: (" + nextAction.getVelocity_up()+ "," + nextAction.getVelocity_right() + ")");
+                }
+            }
+
+            State nextState = track.move(state, nextAction);
+            Cell nextCell = nextState.getCell();
+
+            int r = ON_REWARD; // Reward for on track
+            if ( nextCell.equals(state.getCell()) && nextState.isStop() ) {
+                r = OFF_REWARD; // Reward for off track
+            }
+
+            // Slide 50 % of the time
+            double randomSlide = Math.random();
+            Cell slideToCell;
+            if (randomSlide < 0.25) { // Slide up 25 % of the time
+                slideToCell = track.getCell(nextCell.getX(), nextCell.getY() - 1);
+                if (slideToCell != null) {
+                    if (print)
+                        System.out.println(track.PrintPos(nextState.getCell(), 'P'));
+
+                    nextState.setCell(slideToCell);
+                }
+            } else if (randomSlide > 0.75) { // Slide right 25 % of the time
+                slideToCell = track.getCell(nextCell.getX() + 1, nextCell.getY());
+                if (slideToCell != null) {
+                    if (print)
+                        System.out.println(track.PrintPos(nextState.getCell(), 'L'));
+
+                    nextState.setCell(slideToCell);
+                }
+            }
+
+            // If we slide of the track we crash and reset
+            if (nextState.getCell().getSymbol() == Track.OffTrack) {
+                nextState = new State(0,0, state.getCell());
+            }
+
+            int R = 0;
+            R += (simulate(nextState, ++iteration, print) + r);
+
+            Pair updatePair = new Pair(state, nextAction);
+            history.updateReward(updatePair, R);
+
+            return R;
+
+        } else {
+            return 0;
+        }
+    }
+}
+

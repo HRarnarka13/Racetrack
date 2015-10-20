@@ -4,6 +4,8 @@ import java.util.List;
 /**
  * Created by arnarkari on 18/10/15.
  *
+ *
+ *
  * @author arnarkari
  */
 public class Pair {
@@ -19,16 +21,8 @@ public class Pair {
         return state;
     }
 
-    public void setState(State state) {
-        this.state = state;
-    }
-
     public Action getAction() {
         return action;
-    }
-
-    public void setAction(Action action) {
-        this.action = action;
     }
 
     public boolean equals(Pair pair) {

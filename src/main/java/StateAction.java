@@ -6,16 +6,14 @@ import java.util.List;
  *
  * @author arnarkari
  */
-public class StateActionHistory {
+public class StateAction {
 
     private Pair pair;
     private int number_of_rewards;
     private double weighted_average;
-    private List<Integer> rewards;
 
-    public StateActionHistory(Pair pair) {
+    public StateAction(Pair pair) {
         this.pair = pair;
-        rewards = new ArrayList<Integer>();
         number_of_rewards = 0;
     }
 
@@ -29,7 +27,7 @@ public class StateActionHistory {
         if (number_of_rewards == 1) {
             weighted_average = (double) reward;
         }
-        weighted_average = weighted_average + (0.6 * (reward - weighted_average));
+        weighted_average = weighted_average + (0.1  * (reward - weighted_average));
     }
 
     /**
@@ -41,26 +39,8 @@ public class StateActionHistory {
         return weighted_average;
     }
 
-    public boolean equals(Pair pair) {
-        if (this.pair.equals(pair) && this.pair.equals(pair)) {
-            return true;
-        }
-        return false;
-    }
-
     public Pair getPair() {
         return pair;
     }
 
-    public void setPair(Pair pair) {
-        this.pair = pair;
-    }
-
-    public List<Integer> getRewards() {
-        return rewards;
-    }
-
-    public void setRewards(List<Integer> rewards) {
-        this.rewards = rewards;
-    }
 }

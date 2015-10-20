@@ -1,6 +1,8 @@
 /**
  * Created by arnarkari on 18/10/15.
  *
+ * This class represents a single action
+ *
  * @author arnarkari
  */
 public class Action {
@@ -17,16 +19,8 @@ public class Action {
         return velocity_up;
     }
 
-    public void setVelocity_up(int velocity_up) {
-        this.velocity_up = velocity_up;
-    }
-
     public int getVelocity_right() {
         return velocity_right;
-    }
-
-    public void setVelocity_right(int velocity_right) {
-        this.velocity_right = velocity_right;
     }
 
     public boolean equals(Action action) {

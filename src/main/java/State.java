@@ -23,16 +23,8 @@ public class State {
         return velocity_Up;
     }
 
-    public void setVelocity_Up(int velocity_Up) {
-        this.velocity_Up = velocity_Up;
-    }
-
     public int getVelocity_Right() {
         return velocity_Right;
-    }
-
-    public void setVelocity_Right(int velocity_Right) {
-        this.velocity_Right = velocity_Right;
     }
 
     public Cell getCell() {
