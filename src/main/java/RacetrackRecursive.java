@@ -23,9 +23,12 @@ public class RacetrackRecursive {
                 Action randomAction = Actions.getRandomStartingAction();
                 State beginState = new State(0, 0, track.getRandomStartingPosition());
 
-                int round_reward = simulate(beginState, 0);
-                if (i % 10001 == 1) {
+                if (i % 100001 ==1 ) {
+                    int round_reward = simulate(beginState, 0, true);
                     System.out.println("Round: " + i + " reward : " + round_reward);
+
+                } else {
+                    int round_reward = simulate(beginState, 0, false);
                 }
             }
 
@@ -37,11 +40,13 @@ public class RacetrackRecursive {
     }
 
 
-    public int simulate (State state, int iterations) {
+    public int simulate (State state, int iterations, boolean print) {
 
-//        System.out.println(track.PrintPos(state.getCell()));
-//        System.out.println("Racer: (" + state.getCell().getX() + "," + state.getCell().getY() + ") speed : (" +
-//            state.getVelocity_Up() + "," + state.getVelocity_Right() + ")");
+        if (print) {
+            System.out.println(track.PrintPos(state.getCell()));
+            System.out.println("Racer: (" + state.getCell().getX() + "," + state.getCell().getY() + ") speed : (" +
+                    state.getVelocity_Up() + "," + state.getVelocity_Right() + ")");
+        }
 
         if (state.getCell().getSymbol() != Track.EndPos && iterations <= MAX_ITERATIONS) {
 
@@ -50,19 +55,19 @@ public class RacetrackRecursive {
             if (randomExplore < 0.1) { // 10 % of the time we explore
                 nextAction = Actions.getRandomAction(); // get random action
 
-//                System.out.println("R Action: (" + nextAction.getVelocity_up()+ "," + nextAction.getVelocity_right() + ")");
-
+                if (print) {
+                    System.out.println("R Action: (" + nextAction.getVelocity_up()+ "," + nextAction.getVelocity_right() + ")");
+                }
             } else {
                 // Get the best action to take in the current state
                 nextAction = history.getBestAction(state);
 
-                //System.out.println("Action: (" + nextAction.getVelocity_up()+ "," + nextAction.getVelocity_right() + ")");
+                if (print) {
+                    System.out.println("Action: (" + nextAction.getVelocity_up()+ "," + nextAction.getVelocity_right() + ")");
+                }
             }
 
             State nextState = track.move(state, nextAction);
-
-
-
 
             Cell nextCell = nextState.getCell();
 
@@ -72,7 +77,7 @@ public class RacetrackRecursive {
             }
 
             int R = 0;
-            R += (simulate(nextState, iterations++) + r);
+            R += (simulate(nextState, iterations++, print) + r);
 
             Pair updatePair = new Pair(nextState, nextAction);
             history.updateReward(updatePair, R);

@@ -66,29 +66,17 @@ public class HistoryHash {
         Action bestAction = null;
 
         // Create a list of potential best actions
-        List<StateActionHistory> bestStateActions = new ArrayList<StateActionHistory>();
-
         for (Action action : Actions.getActions()) {
-
+            // Get the state action for the hash-map
             StateActionHistory sah = hashMap.get(getStringKey(new Pair(state, action)));
-            bestAction = sah.getPair().getAction();
-            // play and check
-            State maybe = track.move(state, bestAction);
+            Action sahAction = sah.getPair().getAction();
+            State maybe = track.move(state, bestAction); // move the card
+            // Check if we move further away from the finish line
             if (distanceToFinishLine(maybe) < distanceToFinishLine(state)) {
-                bestStateActions.add(sah);
-            }
-        }
-        // System.out.println("Size of best actions list " + bestStateActions.size());
-        // Get the best of the best action
-        Collections.shuffle(bestStateActions, new Random());
-        bestReward = Double.NEGATIVE_INFINITY;
-        int counter = 0;
-        for ( StateActionHistory bsa : bestStateActions) {
-            if ( bsa.getAvgReward() >= bestReward ) {
-                bestReward = bsa.getAvgReward();
-                bestAction = bsa.getPair().getAction();
-                // System.out.println("counter = " + counter +  " best reward : " + bestReward);
-                counter++;
+//                bestStateActions.add(sah);
+                if (sah.getAvgReward() >= bestReward) {
+                    bestAction = sahAction;
+                }
             }
         }
 
