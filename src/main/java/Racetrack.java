@@ -17,9 +17,9 @@ public class Racetrack {
     final int OFF_REWARD = -5;
     final int ON_REWARD = -1;
 
-    public Racetrack() {
+    public Racetrack(String file) {
         try {
-            this.track = new Track(TrackReader.TrackReader("track1"));
+            this.track = new Track(TrackReader.TrackReader(file));
             this.history = new HistoryHash(this.track);
             double sum = 0;
             double oldSum = 0;
