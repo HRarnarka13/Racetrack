@@ -52,7 +52,6 @@ public class HistoryHash {
                 bestAction = sah.getPair().getAction();
             }
         }
-
         return bestAction;
     }
 

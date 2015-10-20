@@ -151,6 +151,18 @@ public class Track {
         return startingPositions.get(randomIndex);
     }
 
+    public List<Cell> getAllStartingStates(){
+        List<Cell> startingPositions = new ArrayList<Cell>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (track[i][j] != null && track[i][j].getSymbol() == StartPos) {
+                    startingPositions.add(track[i][j]);
+                }
+            }
+        }
+        return startingPositions;
+    }
+
     public String PrintPos(Cell cell, char a) {
         String result = "";
         for (int i = 0; i < rows; i++) {
