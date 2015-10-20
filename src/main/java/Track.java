@@ -180,6 +180,23 @@ public class Track {
         return result;
     }
 
+    public String PrintEpisode(List<Cell> racer) {
+        String result = "";
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (track[i][j] != null) {
+                    if (racer.contains(track[i][j])) {
+                        result += track[i][j].getSymbol() == OffTrack ? "W" : "R";
+                    } else{
+                        result += track[i][j].toString();
+                    }
+                }
+            }
+            result += "\n";
+        }
+        return result;
+    }
+
 
     @Override
     public String toString() {
