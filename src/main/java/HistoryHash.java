@@ -41,7 +41,7 @@ public class HistoryHash {
 
     public double distanceToFinishLine(State state) {
         return Math.sqrt(Math.pow(finishLine.getX() - state.getCell().getX(), 2)
-                + Math.pow(state.getCell().getY() - finishLine.getY(),2));
+                + Math.pow(state.getCell().getY() - finishLine.getY(), 2));
     }
 
     public Cell getMiddleFinishLineCell() {
@@ -74,21 +74,18 @@ public class HistoryHash {
             bestAction = sah.getPair().getAction();
             State maybe = track.move(state, bestAction); // move the card
             // Check if we move further away from the finish line
-            if (distanceToFinishLine(maybe) < distanceToFinishLine(state)) {
+//            if (distanceToFinishLine(maybe) < distanceToFinishLine(state)) {
                 bestStateActions.add(sah);
-            }
+//            }
         }
-        // System.out.println("Size of best actions list " + bestStateActions.size());
-        // Get the best of the best action
-        Collections.shuffle(bestStateActions, new Random());
+//        Collections.shuffle(bestStateActions, new Random());
         bestReward = Double.NEGATIVE_INFINITY;
         int counter = 0;
         for ( StateActionHistory bsa : bestStateActions) {
             if ( bsa.getAvgReward() >= bestReward ) {
                 bestReward = bsa.getAvgReward();
                 bestAction = bsa.getPair().getAction();
-                // System.out.println("counter = " + counter +  " best reward : " + bestReward);
-                counter++;
+
             }
         }
 

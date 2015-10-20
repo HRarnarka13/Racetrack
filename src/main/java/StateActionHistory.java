@@ -29,7 +29,7 @@ public class StateActionHistory {
         if (number_of_rewards == 1) {
             weighted_average = (double) reward;
         }
-        weighted_average = weighted_average + (0.6 * (reward - weighted_average));
+        weighted_average = weighted_average + (0.1 * (reward - weighted_average));
     }
 
     /**
@@ -38,6 +38,9 @@ public class StateActionHistory {
      * @return the avg of the rewards
      */
     public double getAvgReward() {
+        if(weighted_average == 0){
+            return -this.getPair().getState().getCell().getY();
+        }
         return weighted_average;
     }
 
