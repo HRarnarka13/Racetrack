@@ -9,11 +9,14 @@ import java.util.List;
 public class StateActionHistory {
 
     private Pair pair;
-    private List<Integer> rewards;
+    private int number_of_rewards;
+    private double weighted_average;
+     private List<Integer> rewards;
 
     public StateActionHistory(Pair pair) {
         this.pair = pair;
         rewards = new ArrayList<Integer>();
+        number_of_rewards = 0;
     }
 
     /**
@@ -22,7 +25,11 @@ public class StateActionHistory {
      * @param reward a new reward
      */
     public void addReward(int reward) {
-        rewards.add(reward);
+        number_of_rewards++;
+        if (number_of_rewards == 1) {
+            weighted_average = (double) reward;
+        }
+        weighted_average = weighted_average + (0.7 * (reward - weighted_average));
     }
 
     /**
@@ -31,12 +38,7 @@ public class StateActionHistory {
      * @return the avg of the rewards
      */
     public double getAvgReward() {
-        int sum = 0;
-        for (Integer reward : rewards) {
-            sum += reward;
-        }
-        // Return 0 if there is no rewards in the state else return the avg of the rewards.
-        return rewards.isEmpty() ? 0 : sum / (double) rewards.size();
+        return weighted_average;
     }
 
     public boolean equals(Pair pair) {

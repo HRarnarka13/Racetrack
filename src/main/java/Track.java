@@ -140,7 +140,7 @@ public class Track {
                         track[i][j] = new Cell(j, i, OffTrack, -5);
                         break;
                     case StartPos:
-                        track[i][j] = new Cell(j, i, StartPos, -1);
+                        track[i][j] = new Cell(j, i, StartPos, 0);
                         break;
                     case EndPos:
                         track[i][j] = new Cell(j, i, EndPos, 0);
@@ -164,6 +164,23 @@ public class Track {
 
         int randomIndex = new Random().nextInt(startingPositions.size());
         return startingPositions.get(randomIndex);
+    }
+
+    public String PrintPos(Cell cell) {
+        String result = "";
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (track[i][j] != null) {
+                    if (cell.equals(track[i][j])) {
+                        result += track[i][j].getSymbol() == OffTrack ? "W" :"R";
+                    } else {
+                        result += track[i][j].toString();
+                    }
+                }
+            }
+            result += "\n";
+        }
+        return result;
     }
 
 

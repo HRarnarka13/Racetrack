@@ -11,26 +11,22 @@ public class HistoryHash {
     Track track;
     Cell finishLine;
 
-
     /**
      * Construct a state and action pair for every cell in the track.
      * @param track the track
-     * @param actions list of actions
      */
-    public HistoryHash(Track track, List<Action> actions) {
+    public HistoryHash(Track track) {
         this.track = track;
         this.hashMap = new HashMap<String, StateActionHistory>();
         this.finishLine = getMiddleFinishLineCell();
 
         int rows = track.getRows();
         int cols = track.getCols();
-        // for each cell(x,y)
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < cols; j++){
-                //
                 for(int k = -5; k < 6; k++){
                     for(int h = -5; h < 6; h++){
-                        for(Action a : actions){
+                        for(Action a : Actions.getActions()){
                             State state = new State(k, h, track.getTrack()[i][j]);
                             Pair pair = new Pair(state, a);
                             StateActionHistory stateAction = new StateActionHistory(pair);
@@ -64,7 +60,7 @@ public class HistoryHash {
      * @param state
      * @return
      */
-    public Action getBestAction(State state, Actions actions) {
+    public Action getBestAction(State state) {
 
         double bestReward = Double.NEGATIVE_INFINITY;
         Action bestAction = null;
@@ -72,15 +68,15 @@ public class HistoryHash {
         // Create a list of potential best actions
         List<StateActionHistory> bestStateActions = new ArrayList<StateActionHistory>();
 
-        for (Action action : actions.getActions()) {
+        for (Action action : Actions.getActions()) {
 
             StateActionHistory sah = hashMap.get(getStringKey(new Pair(state, action)));
             bestAction = sah.getPair().getAction();
             // play and check
             State maybe = track.move(state, bestAction);
-//            if (distanceToFinishLine(maybe) < distanceToFinishLine(state)) {
+            if (distanceToFinishLine(maybe) < distanceToFinishLine(state)) {
                 bestStateActions.add(sah);
-//            }
+            }
         }
         // System.out.println("Size of best actions list " + bestStateActions.size());
         // Get the best of the best action
@@ -101,10 +97,8 @@ public class HistoryHash {
         }
 
         // System.out.println(bestReward +  " (" + bestAction.getVelocity_up() + "," + bestAction.getVelocity_right() + ")");
-
         return bestAction;
     }
-
 
     public void add(StateActionHistory stateActionHistory) {
         hashMap.put(getStringKey(stateActionHistory.getPair()), stateActionHistory);
@@ -130,7 +124,6 @@ public class HistoryHash {
         int numberOfStates = 0;
         int numberOfActive = 0;
         for ( StateActionHistory s : hashMap.values()) {
-            numberOfStates++;
             if (s.getPair().getState().getCell().getSymbol() == Track.OnTrack) {
                 numberOfStates++;
                 if ( s.getRewards().size() > 0) {

@@ -7,54 +7,38 @@ import java.util.Random;
  *
  * @author arnarkari
  */
-public class Actions {
+public final class Actions {
 
-    private List<Action> actions;
+    private static List<Action> actions = new ArrayList<Action>() {{
+        add(new Action(0, 0));
+        add(new Action(0, 1));
+        add(new Action(0, -1));
+        add(new Action(1, 0));
+        add(new Action(1, 1));
+        add(new Action(1, -1));
+        add(new Action(-1, 0));
+        add(new Action(-1, 1));
+        add(new Action(-1, -1));
+    }};
 
     public Actions() {
         // Preset the available actions
-        this.actions = new ArrayList<Action>() {{
-            add(new Action(0, 0));
-            add(new Action(0, 1));
-            add(new Action(0, -1));
-            add(new Action(1, 0));
-            add(new Action(1, 1));
-            add(new Action(1, -1));
-            add(new Action(-1, 0));
-            add(new Action(-1, 1));
-            add(new Action(-1, -1));
-        }};
     }
 
-    public List<Action> getActions() {
+    public static List<Action> getActions() {
         return actions;
     }
 
     /**
-     * Get a state by the velocities
-     * @param vel_up
-     * @param vel_right
-     * @return
-     */
-    public Action getState(int vel_up, int vel_right) {
-        for( Action a : actions) {
-            if (a.getVelocity_up() == vel_up && a.getVelocity_right() == vel_right) {
-                return a;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Get a random state
+     * Get a random state in the list of states
      * @return a random state
      */
-    public Action getRandomAction() {
+    public static Action getRandomAction() {
         int randomIndex = new Random().nextInt(actions.size());
         return actions.get(randomIndex);
     }
 
-    public Action getRandomStartingAction() {
+    public static Action getRandomStartingAction() {
         List<Action> startingActions = new ArrayList<Action>();
         for ( Action action : actions ) {
             if (action.getVelocity_up() != -1) {

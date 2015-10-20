@@ -44,6 +44,9 @@ public class State {
     }
     // endregion
 
+    public boolean isStop() {
+        return velocity_Up == 0 && velocity_Right == 0;
+    }
 
     public boolean equals(State state) {
         if (velocity_Up == state.getVelocity_Up() && velocity_Right == state.getVelocity_Right()
