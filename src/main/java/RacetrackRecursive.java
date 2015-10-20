@@ -18,69 +18,92 @@ public class RacetrackRecursive {
             this.track = new Track(TrackReader.TrackReader("track1"));
             this.history = new HistoryHash(this.track);
 
+            int sum = 0;
             for (int i = 0; i < NUMBER_OF_EPISODES; i++) {
 
-                Action randomAction = Actions.getRandomStartingAction();
                 State beginState = new State(0, 0, track.getRandomStartingPosition());
 
-                if (i % 100001 ==1 ) {
-                    int round_reward = simulate(beginState, 0, true);
-                    System.out.println("Round: " + i + " reward : " + round_reward);
-
-                } else {
-                    int round_reward = simulate(beginState, 0, false);
+                int reward = simulate(beginState, 0, false);
+                sum += reward;
+                if (i % 1000 == 0) {
+                    System.out.println("Round : " + i + " SUM : " + sum + " avg : " + sum / (double)(1000) + " reward : " + reward);
+                    sum = 0;
                 }
             }
 
-            // Get starting state ..
-            // Begin simulate();
+            State beginState = new State(0, 0, track.getRandomStartingPosition());
+            simulate(beginState, 0, true);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
     public int simulate (State state, int iterations, boolean print) {
-
-        if (print) {
-            System.out.println(track.PrintPos(state.getCell()));
-            System.out.println("Racer: (" + state.getCell().getX() + "," + state.getCell().getY() + ") speed : (" +
-                    state.getVelocity_Up() + "," + state.getVelocity_Right() + ")");
-        }
 
         if (state.getCell().getSymbol() != Track.EndPos && iterations <= MAX_ITERATIONS) {
 
             Action nextAction; // next action
             double randomExplore = Math.random();
-            if (randomExplore < 0.1) { // 10 % of the time we explore
+            if (randomExplore < 0.1 && iterations != 0) { // 10 % of the time we explore
                 nextAction = Actions.getRandomAction(); // get random action
 
                 if (print) {
-                    System.out.println("R Action: (" + nextAction.getVelocity_up()+ "," + nextAction.getVelocity_right() + ")");
+//                    System.out.println("R Action: (" + nextAction.getVelocity_up()+ "," + nextAction.getVelocity_right() + ")");
                 }
             } else {
                 // Get the best action to take in the current state
                 nextAction = history.getBestAction(state);
 
                 if (print) {
-                    System.out.println("Action: (" + nextAction.getVelocity_up()+ "," + nextAction.getVelocity_right() + ")");
+//                    System.out.println("Action: (" + nextAction.getVelocity_up()+ "," + nextAction.getVelocity_right() + ")");
                 }
             }
 
             State nextState = track.move(state, nextAction);
-
             Cell nextCell = nextState.getCell();
 
-            int r = -1; // Reward begin
+            int r = ON_REWARD; // Reward for on track
             if ( nextCell.equals(state.getCell()) && nextState.isStop() ) {
-                r = -5;
+                r = OFF_REWARD; // Reward for off track
+            }
+
+            // Slide 50 % of the time
+            double randomSlide = Math.random();
+            Cell slideToCell;
+            if (randomSlide < 0.25) { // Slide up 25 % of the time
+                slideToCell = track.getCell(nextCell.getX(), nextCell.getY() - 1);
+                if (slideToCell != null) {
+                    nextState.setCell(slideToCell);
+                }
+            } else if (randomSlide > 0.75) { // Slide right 25 % of the time
+                slideToCell = track.getCell(nextCell.getX() + 1, nextCell.getY());
+                if (slideToCell != null) {
+                    nextState.setCell(slideToCell);
+                }
+            }
+
+            // If we slide of the track we crash and reset
+            if (nextState.getCell().getSymbol() == Track.OffTrack) {
+                nextState = new State(0,0, state.getCell());
             }
 
             int R = 0;
             R += (simulate(nextState, iterations++, print) + r);
 
-            Pair updatePair = new Pair(nextState, nextAction);
+            Pair updatePair = new Pair(state, nextAction);
             history.updateReward(updatePair, R);
+            if (print) {
+                System.out.println("R : " + R);
+            }
+
+            if (print) {
+                System.out.println("R : " + R);
+                // System.out.println(track.PrintPos(state.getCell()));
+                System.out.println("Racer: (" + state.getCell().getX() + "," + state.getCell().getY() + ") speed : (" +
+                        state.getVelocity_Up() + "," + state.getVelocity_Right() + ")");
+                System.out.println("Action: (" + nextAction.getVelocity_up()+ "," + nextAction.getVelocity_right() + ")");
+            }
 
             return R;
 

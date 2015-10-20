@@ -11,7 +11,7 @@ public class StateActionHistory {
     private Pair pair;
     private int number_of_rewards;
     private double weighted_average;
-     private List<Integer> rewards;
+    private List<Integer> rewards;
 
     public StateActionHistory(Pair pair) {
         this.pair = pair;
@@ -29,7 +29,7 @@ public class StateActionHistory {
         if (number_of_rewards == 1) {
             weighted_average = (double) reward;
         }
-        weighted_average = weighted_average + (0.7 * (reward - weighted_average));
+        weighted_average = weighted_average + (0.6 * (reward - weighted_average));
     }
 
     /**

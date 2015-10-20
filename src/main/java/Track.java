@@ -20,19 +20,10 @@ public class Track {
     public int getRows() {
         return rows;
     }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
+    
     public int getCols() {
         return cols;
     }
-
-    public void setCols(int cols) {
-        this.cols = cols;
-    }
-
     private int cols;
 
     public Track(String trackFile)  {
@@ -50,17 +41,12 @@ public class Track {
      * @return a cell, or null if the cell is not on the track
      */
     public Cell getCell(int x, int y) {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                Cell c = track[i][j];
-                if (c != null && c.getX() == x && c.getY() == y) {
-                    return c;
-                }
-            }
+        try {
+            return track[x][y];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
         }
-        return null;
     }
-
 
 
     /**
